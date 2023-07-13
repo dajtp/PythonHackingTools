@@ -25,3 +25,8 @@ def handle_client(client_socket):
 if __name__ == '__main__':
     main()
 
+#   First, we pass the IP and PORT we want to listen on & then tell the server to start listening with a maximum backlog of connections being set to 5 ((10))
+#   We then put the server into its main loop, where it waits for an incoming connection. When we receive a connection, we receive the client socket in the client varible and the remote connection details in the address variable ((14))
+#   We then create a new thread object that points to our handle_client function and pass it the handle_client object as an arguement ((16))
+#   We then start the thread to handle the client connection ((17)), at which point the main server loop is ready to accept another connection. 
+#   The handle_client function performs the recv() and then sends a simple message back to the client ((19))
