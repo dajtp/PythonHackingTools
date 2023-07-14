@@ -51,3 +51,52 @@ else:
 
 nc = NetCat(args, buffer.encode())
 nc.run()
+
+#   We initialise the NetCat object with arguements from the command line & buffer. 
+#   We then create the socket object
+
+class NetCat:
+    def __init__(self, args, buffer=None):
+        self.args = args
+        self.buffer = buffer
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+#   We create a run method, which is the entry point for managing the NetCat object. If we are setting up a listener, it calls the listener method. Otherwise, it calls the send method. Created further on.    
+
+    def run (self):
+        if self.args.listen:
+            self.listen()
+        else:
+            self.send()
+
+#   ((76)) - We connect to the target IP and Port, and if we have a buffer we send that first. 
+#   We then set up a try/catch block si we can manually close the connection with CTRL+C.
+#   ((83)) - Next, we set up a loop to receive data from the target. If there is no more data, we break out of the loop. 
+#   ((97)) - Otherwise, we print the response data and pause to get interactive input, send that input and continue the loop.
+#   This continues until a CTRL+C Keyboard Interrup occurs - Which closes the socket.  
+
+    def send(self):
+        self.socket.connect((self.args.target, self.args.port))
+        if self.buffer:
+            self.socket.send(self.buffer)
+    
+        try:
+            while True:
+                recv_len = 1
+                response = ''
+                while recv_len:
+                    data = self.socket.recv(4096)
+                    recv_len = len(data)
+                    response += data.decode()
+                    if recv_len < 4096:
+                        break
+                if response:
+                    print(response)
+                    buffer = input('> ')
+                    buffer += '\n'
+                    self.socket.send(buffer.encode())
+        except KeyboardInterrupt:
+            print('User Terminated - Bitch')
+            self.socket.close()
+            sys.exit()
