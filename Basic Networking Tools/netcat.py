@@ -1,3 +1,6 @@
+# THIS SCRIPT ONLY WORKS WHEN RUN LOCALLY ON A UNIX MACHINE (I.E KALI) AS BOTH A SENDER (CLIENT) & RECEIVER (LISTENER) - NO WINDOWS.
+
+
 # Import necerssary libraries
 
 import argparse
