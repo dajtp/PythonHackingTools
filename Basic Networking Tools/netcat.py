@@ -100,3 +100,55 @@ class NetCat:
             print('User Terminated - Bitch')
             self.socket.close()
             sys.exit()
+
+#   The listen method binds to the target IP & Port & starts listening in a loop - passing the connected socket to the Handle method.    
+
+    def listen(self):
+        self.socket.bind((self.args.target, self.args.port))
+        self.socket.listen(5)
+        while True:
+            client_socket, _ = self.socket.accept()
+            client_thread = threading.Thread(
+                target=self.handle, args=(client_socket,)
+            )
+            client_thread.start()
+
+#   ((121)) The handle method executes the task corrosponding to the command line arguement it receives, execute a command, upload a file or start a shell. 
+#   (122))  If a command should be executed, the handle method passes that command to the execute function and sends the output back on the socket.
+#   ((126)) If a file should be uploaded, we setup a loop to listen for content on the listening socket and receive data until there is no more data coming in. Then we write that accumulated content to the specified file. 
+#   ((140)) Finally, if a shell is to be created - We setup a loop, send a prompt to the sender, and wait for the command string to come back. We then execute the command by using the execute function and return the output of the command to the sender. 
+    
+    def handle(self, client_socket):
+        if self.args.execute:
+            output = execute(self.args.execute)
+            client_socket.send(output.encode())
+        
+        elif self.args.upload:
+            file_buffer = 'b'
+            while True:
+                data = client_socket.recv(4096)
+                if data:
+                    file_buffer += data
+                else:
+                    break
+            
+            with open(self.args.upload, 'wb') as f:
+                f.write(file_buffer)
+            message = f'Saved File {self.args.upload}'
+            client_socket.send(message.encode())
+        
+        elif self.args.command:
+            cmd_buffer = b''
+            while True:
+                try:
+                    client_socket.send(b'BHP': #> ')
+                    while '\n' not in cmd_buffer.decode():
+                        cmd_buffer += client_socket.recv(64)
+                    response = execute(cmd_buffer.decode())
+                    if response:
+                        client_socket.send(response.encode())
+                    cmd_buffer = b''
+                except: Exception as e:
+                    print(f'Server Killed {e}')
+                    self.socket.close()
+                    sys.exit()
