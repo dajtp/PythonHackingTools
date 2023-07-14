@@ -25,11 +25,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='BHP Net Tool', formatter_class=argparse.RawDescriptionHelpFormatter, 
         epilog=textwrap.dedent('''Example: 
-                               netcat.py -t 192.168.1.108 -p 5555 -l -c # Command Shell
-                               netcat.py -t 192.168.1.108 -p 5555 -l -u=mytext.txt # Upload a File
-                               netcat.py -t 192.168.1.108 -p 5555 -l -e\"cat /etc/password\" # Execute Command
-                               echo 'ABC' | ./netcat.py -t 192.168.1.108 -p 135 # Echo Text To Server Port 135
-                               netcat.py -t 192.168.1.108 -p 5555 # Connect To Server
+                               netcat.py -t 192.168.1.108 -p 5555 -l -c                         # Command Shell
+                               netcat.py -t 192.168.1.108 -p 5555 -l -u=mytext.txt              # Upload a File
+                               netcat.py -t 192.168.1.108 -p 5555 -l -e\"cat /etc/password\"    # Execute Command
+                               echo 'ABC' | ./netcat.py -t 192.168.1.108 -p 135                 # Echo Text To Server Port 135
+                               netcat.py -t 192.168.1.108 -p 5555                               # Connect To Server
         '''))
 
 #   We add 6 arguements within the script and then specify how we want them to behave
