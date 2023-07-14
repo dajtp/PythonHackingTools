@@ -27,7 +27,7 @@ if __name__ == '__main__':
         epilog=textwrap.dedent('''Example: 
                                netcat.py -t 192.168.1.108 -p 5555 -l -c                         # Command Shell
                                netcat.py -t 192.168.1.108 -p 5555 -l -u=mytext.txt              # Upload a File
-                               netcat.py -t 192.168.1.108 -p 5555 -l -e\"cat /etc/password\"    # Execute Command
+                               netcat.py -t 192.168.1.108 -p 5555 -l -e\"cat /etc/password\"      # Execute Command
                                echo 'ABC' | ./netcat.py -t 192.168.1.108 -p 135                 # Echo Text To Server Port 135
                                netcat.py -t 192.168.1.108 -p 5555                               # Connect To Server
         '''))
@@ -141,14 +141,14 @@ class NetCat:
             cmd_buffer = b''
             while True:
                 try:
-                    client_socket.send(b'BHP': #> ')
+                    client_socket.send(b'BHP: #> ')
                     while '\n' not in cmd_buffer.decode():
                         cmd_buffer += client_socket.recv(64)
                     response = execute(cmd_buffer.decode())
                     if response:
                         client_socket.send(response.encode())
                     cmd_buffer = b''
-                except: Exception as e:
+                except Exception as e:
                     print(f'Server Killed {e}')
                     self.socket.close()
                     sys.exit()
