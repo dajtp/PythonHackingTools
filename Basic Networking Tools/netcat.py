@@ -90,7 +90,7 @@ class NetCat:
             client_socket.send(output.encode())
         
         elif self.args.upload:
-            file_buffer = 'b'
+            file_buffer = b''
             while True:
                 data = client_socket.recv(4096)
                 if data:
