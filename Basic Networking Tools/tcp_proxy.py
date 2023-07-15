@@ -54,6 +54,10 @@ def response_handler(buffer):
     # Perform packet modifications
     return buffer
 
+# ((62)) - I connect to the remote host.
+# ((64)) - We check to make sure we don't need to first initiate a connection to the remote side and request data before going into the main loop.
+
+
 def proxy_handler(client_socket, remote_host, remote_port, receive_first):
     remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     remote_socket.connect((remote_host, remote_port))
