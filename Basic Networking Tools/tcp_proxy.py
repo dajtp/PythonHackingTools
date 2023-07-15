@@ -92,3 +92,4 @@ def proxy_handler(client_socket, remote_host, remote_port, receive_first):
             remote_socket.close()
             print("[*] No more data. Closing connections")
             break
+        
