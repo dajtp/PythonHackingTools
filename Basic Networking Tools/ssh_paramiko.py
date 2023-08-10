@@ -22,4 +22,4 @@ if __name__ == '__main__':
     port = int(input('Port or <CR>: ')) or 2222
     cmd = input('Command or <CR>: ') or 'id'
     ssh_command(ip, port, user, passwd, cmd)
-    
+    print('Done.')
