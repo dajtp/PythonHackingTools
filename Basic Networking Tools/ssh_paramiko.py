@@ -11,4 +11,15 @@ def ssh_command(ip, port, user, passwd, cmd):
         print('---Output---')
         for line in output:
             print(line.strip())
-            
+
+if __name__ == '__main__':
+    import getpass
+    # user = getpass.getuser()
+    user = input('Username: ')
+    passwd = getpass.getpass()
+    
+    ip = input('IP: ')
+    port = int(input('Port or <CR>: ')) or 2222
+    cmd = input('Command or <CR>: ') or 'id'
+    ssh_command(ip, port, user, passwd, cmd)
+    
